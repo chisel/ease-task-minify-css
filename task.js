@@ -20,12 +20,14 @@ module.exports = (logger, dirname, config) => {
 
       }
 
-      const minifier = new CleanCSS(_.assign(_.cloneDeep(config), {
-        dir: undefined,
-        outDir: undefined,
-        cleanOutDir: undefined,
-        returnPromise: false
-      }));
+      const finalOptions = _.cloneDeep(config);
+
+      delete finalOptions.dir;
+      delete finalOptions.outDir;
+      delete finalOptions.cleanOutDir;
+      delete finalOptions.returnPromise;
+
+      const minifier = new CleanCSS(finalOptions);
 
       // Search `config.dir` for `.css` files
       glob('**/*.css', { cwd: path.join(dirname, config.dir) }, (error, files) => {
@@ -55,14 +57,14 @@ module.exports = (logger, dirname, config) => {
               if ( result.warnings.length ) logger(`CSS minifier threw the following warnings:\n${result.warnings.reduce((a, b) => `${a}\n${b}`)}`);
 
               // Write to file
-              fs.writeFile(path.join(dirname, config.outDir, file), result.styles, error => {
+              fs.outputFile(path.join(dirname, config.outDir, file), result.styles, error => {
 
                 if ( error ) return reject(error);
 
                 // Write sourcemaps
                 if ( result.sourceMap && config.sourceMap ) {
 
-                  fs.writeFile(path.join(dirname, config.outDir, file + '.map'), result.sourceMap, error => {
+                  fs.outputFile(path.join(dirname, config.outDir, file + '.map'), result.sourceMap, error => {
 
                     if ( error ) return reject(error);
                     resolve();
