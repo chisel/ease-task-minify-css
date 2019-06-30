@@ -24,7 +24,7 @@ module.exports = ease => {
 This plugin takes a config object similar to [Clean CSS Options](https://www.npmjs.com/package/clean-css#constructor-options) while ignoring the property `returnPromise` and adding the following properties:
   - `dir`: Path to a directory containing all the SASS files, relative to `easeconfig.js`
   - `outDir`: Path to the output directory where the CSS files should be written, relative to `easeconfig.js`
-  - `clearOutDir`: Boolean indicating if the output directory should be emptied first
+  - `cleanOutDir`: Boolean indicating if the output directory should be emptied first
 
 # Example
 
@@ -37,7 +37,7 @@ module.exports = ease => {
   ease.install('minify-css', minifyCss, {
     dir: 'css',
     outDir: 'css',
-    clearOutDir: false,
+    cleanOutDir: false,
     compatibility: 'ie8',
     sourceMap: true
   });
