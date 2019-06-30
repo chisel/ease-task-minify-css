@@ -1,5 +1,5 @@
 const CleanCSS = require('clean-css');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const _ = require('lodash');
 const glob = require('glob');
